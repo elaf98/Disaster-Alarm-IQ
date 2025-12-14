@@ -27,13 +27,6 @@ const DashboardMap = () => {
       description: 'Severe sandstorm expected in Baghdad area'
     },
     {
-      id: 2,
-      position: [36.1900, 37.1600], // Aleppo border area
-      type: 'warning',
-      title: 'Earthquake Advisory',
-      description: 'Minor seismic activity detected'
-    },
-    {
       id: 3,
       position: [30.5, 47.8], // Basra
       type: 'advisory',
@@ -41,7 +34,7 @@ const DashboardMap = () => {
       description: 'Heavy rainfall expected in southern regions'
     }
   ];
-
+//icons colors
   const createCustomIcon = (type) => {
     let color;
     switch (type) {
@@ -52,10 +45,10 @@ const DashboardMap = () => {
         color = '#ff9a3c';
         break;
       case 'advisory':
-        color = '#3282b8';
+        color = '#ffd000ff';
         break;
       default:
-        color = '#3282b8';
+        color = '#5dfd00ff';
     }
 
     return L.divIcon({
