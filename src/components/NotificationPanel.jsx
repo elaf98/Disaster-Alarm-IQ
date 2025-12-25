@@ -60,33 +60,33 @@ const NotificationPanel = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed right-4 top-20 w-96 bg-white rounded-lg shadow-xl z-50 border border-gray-200">
-      <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-gray-900">{t('notifications')}</h3>
-        <button className="text-sm text-blue-600 hover:text-blue-800">
+    <div className="fixed right-2 sm:right-4 top-16 sm:top-20 w-[calc(100%-1rem)] sm:w-80 md:w-96 bg-white rounded-lg shadow-xl z-50 border border-gray-200 max-h-[calc(100vh-5rem)] flex flex-col">
+      <div className="p-3 sm:p-4 border-b border-gray-200 flex justify-between items-center flex-shrink-0">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900">{t('notifications')}</h3>
+        <button className="text-xs sm:text-sm text-blue-600 hover:text-blue-800">
           {t('markAllAsRead')}
         </button>
       </div>
       
-      <div className="max-h-96 overflow-y-auto">
+      <div className="max-h-96 overflow-y-auto flex-1">
         {notifications.map((notification) => (
           <div
             key={notification.id}
-            className="p-4 border-b border-gray-100 hover:bg-blue-50 cursor-pointer transition-colors"
+            className="p-3 sm:p-4 border-b border-gray-100 hover:bg-blue-50 cursor-pointer transition-colors"
           >
             <div className="flex">
               <div className="flex-shrink-0">
-                <div className={`w-10 h-10 ${getBgClass(notification.type)} rounded-full flex items-center justify-center`}>
-                  <i className={getIconClass(notification.type)}></i>
+                <div className={`w-8 h-8 sm:w-10 sm:h-10 ${getBgClass(notification.type)} rounded-full flex items-center justify-center`}>
+                  <i className={`${getIconClass(notification.type)} text-sm sm:text-base`}></i>
                 </div>
               </div>
-              <div className="ml-3 flex-1">
-                <p className="text-sm font-medium text-gray-900">{notification.title}</p>
-                <p className="text-sm text-gray-600 mt-1">{notification.message}</p>
-                <div className="flex items-center mt-2 text-xs text-gray-500">
+              <div className="ml-2 sm:ml-3 flex-1 min-w-0">
+                <p className="text-xs sm:text-sm font-medium text-gray-900">{notification.title}</p>
+                <p className="text-xs sm:text-sm text-gray-600 mt-1">{notification.message}</p>
+                <div className="flex items-center mt-2 text-xs text-gray-500 flex-wrap gap-1">
                   <i className="far fa-clock mr-1"></i>
                   <span>{notification.time}</span>
-                  <span className="mx-2">•</span>
+                  <span className="mx-1">•</span>
                   <span className="text-red-600 font-medium">{notification.priority}</span>
                 </div>
               </div>
@@ -95,8 +95,8 @@ const NotificationPanel = ({ isOpen, onClose }) => {
         ))}
       </div>
       
-      <div className="p-3 border-t border-gray-200 text-center bg-gray-50 rounded-b-lg">
-        <a href="#" className="text-sm font-medium text-blue-600 hover:text-blue-800">
+      <div className="p-2 sm:p-3 border-t border-gray-200 text-center bg-gray-50 rounded-b-lg flex-shrink-0">
+        <a href="#" className="text-xs sm:text-sm font-medium text-blue-600 hover:text-blue-800">
           {t('viewAll')}
         </a>
       </div>

@@ -67,16 +67,17 @@ const formatted = data
 
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900">Live Threat Map - Iraq</h3>
-        <p className="text-sm text-gray-500 mt-1">Real-time disaster alerts across Iraq</p>
+      <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900">Live Threat Map - Iraq</h3>
+        <p className="text-xs sm:text-sm text-gray-500 mt-1">Real-time disaster alerts across Iraq</p>
       </div>
-      <div className="p-4">
-        <MapContainer
-          center={iraqCenter}
-          zoom={6}
-          style={{ height: '320px', width: '100%', borderRadius: '8px' }}
-        >
+      <div className="p-3 sm:p-4">
+        <div className="h-[280px] sm:h-[320px] md:h-[400px] w-full rounded-lg overflow-hidden">
+          <MapContainer
+            center={iraqCenter}
+            zoom={6}
+            style={{ height: '100%', width: '100%' }}
+          >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -88,32 +89,33 @@ const formatted = data
               icon={createCustomIcon(disaster.type)}
             >
               <Popup>
-                <div className="font-semibold">{disaster.title}</div>
-                <div className="text-sm mt-1">{disaster.description}</div>
-                <button className="mt-2 bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                <div className="font-semibold text-sm">{disaster.title}</div>
+                <div className="text-xs mt-1">{disaster.description}</div>
+                <button className="mt-2 bg-blue-600 text-white px-3 py-1 rounded text-xs sm:text-sm">
                   {t('viewDetails')}
                 </button>
               </Popup>
             </Marker>
           ))}
-        </MapContainer>
+          </MapContainer>
+        </div>
         
-        <div className="mt-4 flex justify-between flex-wrap gap-2">
+        <div className="mt-3 sm:mt-4 flex flex-wrap gap-3 sm:gap-4 justify-center sm:justify-start">
           <div className="flex items-center">
             <span className="alert-indicator bg-red-500"></span>
-            <span className="text-sm text-gray-600">{t('critical')}</span>
+            <span className="text-xs sm:text-sm text-gray-600 ml-2">{t('critical')}</span>
           </div>
           <div className="flex items-center">
             <span className="alert-indicator bg-orange-500"></span>
-            <span className="text-sm text-gray-600">{t('warning')}</span>
+            <span className="text-xs sm:text-sm text-gray-600 ml-2">{t('warning')}</span>
           </div>
           <div className="flex items-center">
             <span className="alert-indicator bg-yellow-500"></span>
-            <span className="text-sm text-gray-600">{t('advisory')}</span>
+            <span className="text-xs sm:text-sm text-gray-600 ml-2">{t('advisory')}</span>
           </div>
           <div className="flex items-center">
             <span className="alert-indicator bg-green-500"></span>
-            <span className="text-sm text-gray-600">{t('safe')}</span>
+            <span className="text-xs sm:text-sm text-gray-600 ml-2">{t('safe')}</span>
           </div>
         </div>
       </div>
