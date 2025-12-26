@@ -62,9 +62,6 @@ const Dashboard = () => {
           <button className="bg-white text-red-700 px-4 py-2 rounded-lg font-semibold hover:bg-red-50 transition-colors text-sm sm:text-base">
             {t('viewDetails')}
           </button>
-          <button className="bg-red-800 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-900 transition-colors text-sm sm:text-base">
-            Emergency Protocol
-          </button>
         </div>
       </div>
 
