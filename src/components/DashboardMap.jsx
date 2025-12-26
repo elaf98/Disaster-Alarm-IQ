@@ -14,31 +14,81 @@ L.Icon.Default.mergeOptions({
 
 const DashboardMap = () => {
   const { t } = useTranslation();
-
-  // Iraq coordinates
   const iraqCenter = [33.2232, 43.6793];
-  
   // Sample disaster data for Iraq
   const [disasters, setDisasters] = useState([]);
-
 useEffect(() => {
-fetch('http://localhost/api/gd.php')    
-  .then(res => res.json())
-  .then(data => {
-const formatted = data
-  .filter(item => item.pos) // keep only rows with pos
-  .map((item, index) => {
-    const [lat, lng] = item.pos.split(',').map(Number); // now safe
-    return {
-      id: index,
-      position: [lat, lng],
-      type: item.type,
-      title: item.title,
-    };
-  });
-    setDisasters(formatted);
-  })
-  .catch(err => console.error(err));
+  const fetchDisasters = async () => {
+    try {
+      const res = await fetch(
+        'https://api.allorigins.win/raw?url=https://www.gdacs.org/xml/gdacs.xml'
+      );
+      const text = await res.text();
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(text, "text/xml");
+      const gdacsEvents = Array.from(xml.querySelectorAll("event"))
+        .map((ev, index) => {
+          const title = ev.querySelector("title")?.textContent || "Unknown Event";
+          const typeText = ev.querySelector("eventtype")?.textContent || "Unknown";
+          const alertLevel = ev.querySelector("alertlevel")?.textContent || "Green";
+          const lat = ev.querySelector("lat")?.textContent;
+          const lon = ev.querySelector("lon")?.textContent;
+
+          if (!lat || !lon) return null;
+
+          const [latNum, lonNum] = [Number(lat), Number(lon)];
+
+          // Focus only on Iraq
+          if (latNum < 28 || latNum > 38 || lonNum < 38 || lonNum > 50) return null;
+
+          let type = '0';
+          if (alertLevel === "Red") type = '3';
+          else if (alertLevel === "Orange") type = '2';
+          else if (alertLevel === "Yellow") type = '1';
+
+          return {
+            id: `gdacs-${index}`,
+            position: [latNum, lonNum],
+            type,
+            title,
+            description: typeText,
+          };
+        })
+        .filter(Boolean);
+
+      // test
+      const mockDisasters = [
+        {
+          id: 'test-1',
+          position: [33.3152, 44.3661], // Baghdad
+          type: '3',
+          title: 'TEST: Earthquake (Red Alert)',
+          description: 'This is a test alert',
+        },
+        {
+          id: 'test-2',
+          position: [36.34, 43.13], // Mosul
+          type: '2',
+          title: 'TEST: Flood Warning',
+          description: 'Simulated flood event',
+        },
+        {
+          id: 'test-3',
+          position: [30.51, 47.82], // Basra
+          type: '1',
+          title: 'TEST: Heat Advisory',
+          description: 'High temperature simulation',
+        },
+      ];
+
+      setDisasters([...gdacsEvents, ...mockDisasters]);
+    } catch (err) {
+      console.error("GDACS error:", err);
+
+    }
+  };
+
+  fetchDisasters();
 }, []);
 //icons colors
   const createCustomIcon = (type) => {
