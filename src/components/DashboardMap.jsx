@@ -21,7 +21,7 @@ useEffect(() => {
   const fetchDisasters = async () => {
     try {
       const res = await fetch(
-        'https://api.allorigins.win/raw?url=https://www.gdacs.org/xml/gdacs.xml'
+        '/gdacs/xml/gdacs.xml'
       );
       const text = await res.text();
       const parser = new DOMParser();
