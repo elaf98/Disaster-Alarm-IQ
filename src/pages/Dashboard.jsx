@@ -53,10 +53,14 @@ const Dashboard = () => {
       <div className="px-4 sm:px-6 py-4 mb-6 rounded-xl gradient-danger text-white flex flex-col sm:flex-row justify-between items-start sm:items-center pulse-alert gap-4">
         <div className="flex items-start sm:items-center">
           <i className="fas fa-exclamation-triangle text-xl sm:text-2xl mr-3 sm:mr-4 mt-1 sm:mt-0"></i>
-          <div>
-            <h3 className="font-bold text-base sm:text-lg">CRITICAL ALERT: Severe Weather Warning</h3>
-            <p className="text-xs sm:text-sm opacity-90 mt-1">Tornado warning for Baghdad area until 6:30 PM. Take shelter immediately.</p>
-          </div>
+         <div>
+  <h3 className="font-bold text-base sm:text-lg">
+    {t('critical')}: {t('severeWeather')}
+  </h3>
+  <p className="text-xs sm:text-sm opacity-90 mt-1">
+    {t('tornadoWarning')}
+  </p>
+</div>
         </div>
         <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
           <button className="bg-white text-red-700 px-4 py-2 rounded-lg font-semibold hover:bg-red-50 transition-colors text-sm sm:text-base">

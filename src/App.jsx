@@ -15,43 +15,36 @@ function App() {
   const { i18n } = useTranslation();
   const [activeSection, setActiveSection] = useState('dashboard');
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const [language, setLanguage] = useState('en');
 
+  // هنا يتم توحيد الحالة: نراقب لغة المكتبة مباشرة
   useEffect(() => {
-    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
-    i18n.changeLanguage(language);
-  }, [language, i18n]);
-
-  const changeLanguage = (lng) => {
-    setLanguage(lng);
-  };
+    // i18n.language هي المصدر الوحيد الآن
+    const currentLang = i18n.language || 'ar';
+    
+    // ضبط اتجاه الصفحة (RTL للعربية والكردية، LTR لغيرها)
+    document.documentElement.dir = (currentLang === 'ar' || currentLang === 'ku') ? 'rtl' : 'ltr';
+    document.documentElement.lang = currentLang;
+  }, [i18n.language]);
 
   const renderSection = () => {
     switch (activeSection) {
-      case 'dashboard':
-        return <Dashboard />;
-      case 'alerts':
-        return <Alerts />;
-      case 'map':
-        return <ThreatMap />;
-      case 'resources':
-        return <Resources />;
-      case 'analytics':
-        return <Analytics />;
-      default:
-        return <Dashboard />;
+      case 'dashboard': return <Dashboard />;
+      case 'alerts': return <Alerts />;
+      case 'map': return <ThreatMap />;
+      case 'resources': return <Resources />;
+      case 'analytics': return <Analytics />;
+      default: return <Dashboard />;
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* لم نعد نمرر language أو changeLanguage هنا */}
       <Navigation 
         activeSection={activeSection}
         setActiveSection={setActiveSection}
         notificationsOpen={notificationsOpen}
         setNotificationsOpen={setNotificationsOpen}
-        language={language}
-        changeLanguage={changeLanguage}
       />
       
       <NotificationPanel 
