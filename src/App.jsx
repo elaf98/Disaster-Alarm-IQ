@@ -7,7 +7,6 @@ import './locales/i18n';
 import Navigation from './components/Navigation';
 import Dashboard from './pages/Dashboard';
 import Alerts from './pages/Alerts';
-import ThreatMap from './pages/ThreatMap';
 import Resources from './pages/Resources';
 import Analytics from './pages/Analytics';
 import NotificationPanel from './components/NotificationPanel';
