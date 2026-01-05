@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import 'leaflet/dist/leaflet.css';
 import './locales/i18n';
 
 // Components
@@ -16,13 +17,20 @@ function App() {
   const [activeSection, setActiveSection] = useState('dashboard');
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
-  // هنا يتم توحيد الحالة: نراقب لغة المكتبة مباشرة
+  // 1. طلب إذن الإشعارات عند تشغيل التطبيق لأول مرة
   useEffect(() => {
-    // i18n.language هي المصدر الوحيد الآن
+    if ("Notification" in window) {
+      if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+        Notification.requestPermission();
+      }
+    }
+  }, []);
+
+  // 2. توحيد اتجاه الصفحة ولغتها بناءً على اختيار المستخدم
+  useEffect(() => {
     const currentLang = i18n.language || 'ar';
-    
-    // ضبط اتجاه الصفحة (RTL للعربية والكردية، LTR لغيرها)
-    document.documentElement.dir = (currentLang === 'ar' || currentLang === 'ku') ? 'rtl' : 'ltr';
+    const dir = (currentLang === 'ar' || currentLang === 'ku') ? 'rtl' : 'ltr';
+    document.documentElement.dir = dir;
     document.documentElement.lang = currentLang;
   }, [i18n.language]);
 
@@ -38,8 +46,8 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* لم نعد نمرر language أو changeLanguage هنا */}
+    <div className="min-h-screen bg-gray-50 flex flex-col overflow-x-hidden transition-all duration-300">
+      {/* النافبار الثابت */}
       <Navigation 
         activeSection={activeSection}
         setActiveSection={setActiveSection}
@@ -47,16 +55,27 @@ function App() {
         setNotificationsOpen={setNotificationsOpen}
       />
       
+      {/* لوحة الإشعارات الجانبية */}
       <NotificationPanel 
         isOpen={notificationsOpen}
         onClose={() => setNotificationsOpen(false)}
       />
 
-      <main className="max-w-7xl mx-auto py-4 sm:py-6 px-0 sm:px-6 lg:px-8">
-        {renderSection()}
+      {/* المحتوى الرئيسي */}
+      <main className="flex-grow pt-20 pb-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full animate-fadeIn transition-opacity duration-500">
+          {renderSection()}
+        </div>
       </main>
+
+      {/* إضافة عنصر صوت خفي يتم استدعاؤه عند الطوارئ */}
+      <audio id="emergency-sound" src="https://assets.mixkit.co/active_storage/sfx/951/951-preview.mp3" preload="auto"></audio>
     </div>
   );
 }
 
 export default App;
+
+
+
+
